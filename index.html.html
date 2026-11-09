@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Yıldırımdan Korunma Tasarımı – IEC 62305</title>
+<style>
+:root{--bg:#f3f5f7;--pn:#fff;--fg:#17212b;--mu:#5d6b79;--ln:#d3dae1;--ac:#0b6e99;--hi:#d9541e;--ok:#2e7d4f;--st:#c9d3dd;--bd:#8fa1b3;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f161d;--pn:#17212b;--fg:#e6edf3;--mu:#93a3b3;--ln:#2b3947;--ac:#4cb4e0;--hi:#ff8a57;--ok:#6ccf93;--st:#2a3947;--bd:#6f8397;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f161d;--pn:#17212b;--fg:#e6edf3;--mu:#93a3b3;--ln:#2b3947;--ac:#4cb4e0;--hi:#ff8a57;--ok:#6ccf93;--st:#2a3947;--bd:#6f8397;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;padding:20px max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px))}
+.w{max-width:1200px;margin:0 auto;display:grid;gap:18px}
+h1{margin:0;font-size:26px}.sub{margin:2px 0 0;color:var(--mu)}
+.m{display:grid;grid-template-columns:310px minmax(0,1fr);gap:18px;align-items:start}
+@media(max-width:850px){.m{grid-template-columns:1fr}}
+.p{background:var(--pn);border:1px solid var(--ln);border-radius:6px;padding:16px}
+h2{font-size:13px;letter-spacing:.07em;text-transform:uppercase;color:var(--mu);margin:0 0 10px}
+label{display:grid;gap:3px;margin-bottom:10px;font-size:12px;color:var(--mu)}
+.r{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input,select{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--ln);border-radius:4px;padding:6px 7px;width:100%;min-width:0}
+.g{display:grid;gap:18px;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+@media(max-width:1000px){.g{grid-template-columns:1fr}}
+svg{width:100%;height:auto;display:block}
+.cap{font-size:12px;color:var(--mu);margin:6px 0 0}
+.k{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.c{background:var(--pn);border:1px solid var(--ln);border-radius:6px;padding:10px}
+.c b{display:block;font-size:22px;font-variant-numeric:tabular-nums}.c span{font-size:12px;color:var(--mu)}
+.c.a{border-color:var(--ac)}.c.a b{color:var(--ac)}
+table{width:100%;border-collapse:collapse}td{padding:6px 4px;border-top:1px solid var(--ln);vertical-align:top}td:first-child{color:var(--mu);width:46%}td b{font-variant-numeric:tabular-nums}
+.t-ok{color:var(--ok)}.t-w{color:var(--hi)}
+.sl{stroke:var(--fg);fill:none;stroke-width:1.5}.sb{fill:var(--st);stroke:var(--bd);stroke-width:1.5}
+.tx{fill:var(--fg);font:500 11px system-ui}.mu{fill:var(--mu);font:11px system-ui}
+.hd{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;flex-wrap:wrap}
+.tools{margin-left:auto;width:min(100%,330px)}.bt{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap}
+.bt button{font:inherit;font-size:13px;padding:6px 12px;border:1px solid var(--ac);border-radius:5px;background:var(--pn);color:var(--ac);cursor:pointer}.bt button:hover{background:var(--ac);color:var(--pn)}
+.mp{margin-top:8px;background:var(--pn);border:1px solid var(--ln);border-radius:6px;padding:6px}
+@media print{.noprint{display:none!important}body{background:#fff}.p{break-inside:avoid}}
+</style></head><body>
+<div class="w">
+<header class="hd"><div style="min-width:0;flex:1 1 380px"><h1>⚡ Yıldırımdan Korunma Tasarım Arayüzü</h1>
+<p class="sub">IEC 62305-1/-2/-3 esaslı ön tasarım: risk yaklaşımı, koruma seviyesi, yakalama ve iniş iletkenleri, ayrım mesafesi.</p></div>
+<div class="tools noprint"><div class="bt"><button id="bpdf" type="button">📄 PDF</button><button id="bxls" type="button">📊 Excel</button><button id="bprn" type="button">🖨 Yazdır</button><button id="bdwg" type="button">📐 DWG/DXF yükle</button></div><p class="cap" id="exmsg" style="text-align:right"></p>
+<div class="mp"><svg id="map" viewBox="0 0 304 140" role="img" aria-label="Türkiye haritası"></svg><p class="cap" id="mapcap" style="margin:2px 4px"></p></div></div></header>
+<div class="m">
+<section class="p"><h2>Yapı</h2>
+<div class="r"><label>Uzunluk L (m)<input id="L" type="number" value="40" min="3" step="1"></label><label>Genişlik W (m)<input id="W" type="number" value="25" min="3" step="1"></label></div>
+<div class="r"><label>Yükseklik H (m)<input id="H" type="number" value="12" min="2" step="0.5"></label><label>Çatı çubuğu hr (m)<input id="hr" type="number" value="2" min="0" step="0.5"></label></div>
+<label>Yapı konumu (C<sub>d</sub>)<select id="cd"><option value="0.25">Daha yüksek nesnelerle çevrili – 0,25</option><option value="0.5" selected>Aynı yükseklikte nesnelerle çevrili – 0,5</option><option value="1">İzole – 1</option><option value="2">Tepe/yükselti üzerinde izole – 2</option></select></label>
+<label>İl (Türkiye)<select id="il"><option value="">Manuel giriş</option></select></label>
+<label>Yer yıldırım yoğunluğu N<sub>g</sub> (/km²·yıl)<input id="ng" type="number" value="2.5" min="0.1" step="0.1"></label>
+<p class="cap" id="ilnot">İl seçince N<sub>g</sub> bölgesel ön değerle dolar; değeri elle değiştirebilirsiniz.</p>
+<label>Yakalama sistemi<select id="sys"><option value="rod" selected>Pasif yakalama uçları (Franklin çubuğu)</option><option value="mesh">Ağ (kafes) iletken</option></select></label>
+<h2 style="margin-top:14px">Risk faktörleri (Nc = 5,5·10⁻³ / C)</h2>
+<label>C2 – Yapı malzemesi<select id="c2"><option value="0.5">Çelik / metal çatı – 0,5</option><option value="1" selected>Betonarme – 1</option><option value="2">Ahşap / yanıcı – 2</option></select></label>
+<label>C3 – İçerik<select id="c3"><option value="0.5">Düşük değer, yanmaz – 0,5</option><option value="1" selected>Standart – 1</option><option value="2">Yüksek değer – 2</option><option value="5">Yanıcı/patlayıcı – 5</option></select></label>
+<label>C4 – Kullanım<select id="c4"><option value="0.5">Boş – 0,5</option><option value="1" selected>Normal – 1</option><option value="3">Tahliyesi zor / panik riski – 3</option></select></label>
+<label>C5 – Hizmet sürekliliği<select id="c5"><option value="1" selected>Gerekmez – 1</option><option value="5">Gerekir (ör. veri merkezi) – 5</option><option value="10">Çevresel sonuç – 10</option></select></label>
+<h2 style="margin-top:14px">Tasarım</h2>
+<div class="r"><label>LPS seviyesi<select id="lv"><option value="0" selected>Otomatik (risk)</option><option value="1">I</option><option value="2">II</option><option value="3">III</option><option value="4">IV</option></select></label>
+<label>İletken malzeme<select id="mt"><option value="35">Bakır (min 35 mm²)</option><option value="70">Alüminyum (min 70 mm²)</option><option value="50">Çelik (min 50 mm²)</option></select></label></div>
+<p class="cap">Faktör değerleri ön tasarım içindir; nihai tasarımda IEC 62305-2 Ek NB tabloları ve ulusal şartname (TS EN 62305) ile doğrulayın.</p>
+</section>
+<div style="display:grid;gap:18px;min-width:0">
+<section class="k" aria-live="polite"><div class="c a"><b id="kN">–</b><span>Yıllık yıldırım sıklığı Nd</span></div><div class="c"><b id="kE">–</b><span>Gerekli etkinlik E</span></div><div class="c a"><b id="kL">–</b><span>Koruma seviyesi (LPL)</span></div><div class="c"><b id="kD">–</b><span>İniş iletkeni adedi</span></div><div class="c a"><b id="kR">–</b><span>Pasif yakalama ucu</span></div></section>
+<section class="p"><h2>Perspektif – yuvarlanan küre <button id="pl" type="button" style="margin-left:6px;font:inherit;font-size:11px;text-transform:none;letter-spacing:0;padding:2px 8px;border:1px solid var(--ln);border-radius:4px;background:var(--bg);color:var(--fg);cursor:pointer">⏸ Durdur</button></h2>
+<canvas id="cv" width="1200" height="680" role="img" aria-label="Yapının perspektif görünümü ve yuvarlanan küre" style="width:100%;height:auto;display:block;touch-action:none;cursor:grab"></canvas>
+<p class="cap" id="stt"></p><p class="cap">Küre yapı çevresinde dönerek yuvarlanır; her geçişte farklı bir hattı tarar. Yakalama ucuna değerse yeşil, yapıya (çatı/yüzey) değerse kırmızı, yalnızca zemine değerse mavi olur. Küreyi fare/parmakla tutup sürükleyerek istediğiniz yere taşıyabilirsiniz (otomatik hareket durur; “Oynat” ile devam eder). Boş alanı sürükleyince görünüm döner; fare tekerleği veya iki parmakla yakınlaştırıp uzaklaştırabilirsiniz.</p></section>
+<section class="p" id="dsec"><h2>DWG / DXF mimari çizim üzerine tasarım</h2>
+<div class="bt" style="justify-content:flex-start;margin-bottom:10px"><button id="bld" type="button">📂 DWG/DXF yükle</button><button id="bfit" type="button">Ölçüleri çizimden al</button><button id="bzf" type="button">⤢ Sığdır</button><button id="bdxf" type="button">⬇ Tasarımlı DXF indir</button></div>
+<input id="dwf" type="file" accept=".dwg,.dxf" style="display:none">
+<div class="r" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))"><label>Çizim birimi<select id="dwu"><option value="auto" selected>Otomatik</option><option value="1000">mm</option><option value="100">cm</option><option value="1">m</option></select></label><label>Yapı ofseti X (m)<input id="dox" type="number" value="0" step="0.5"></label><label>Yapı ofseti Y (m)<input id="doy" type="number" value="0" step="0.5"></label></div>
+<p class="cap" id="dst" style="margin:0 0 8px">Henüz çizim yüklenmedi; tasarım boş zemin üzerinde gösteriliyor. Yapı dikdörtgeni çizimin sol-alt köşesinden başlar.</p>
+<canvas id="dv" width="1200" height="700" role="img" aria-label="Mimari çizim üzerine yıldırımdan korunma tasarımı" style="width:100%;height:auto;display:block;touch-action:none;cursor:grab;background:var(--pn);border:1px solid var(--ln);border-radius:4px"></canvas>
+<p class="cap">Çizimdeki çizgi, polyline, yay, daire ve blok eklemeleri gösterilir (yazı, tarama, ölçü ve eğriler gösterilmez). Fare tekerleğiyle yakınlaştırıp sürükleyerek kaydırabilirsiniz. Hesap notları çizimin sağ yanında yer alır; indirilen DXF, orijinal çiziminize tasarım katmanlarını (LPS_*) ve notları ekleyerek üretilir.</p></section>
+<div class="g"><section class="p"><h2>Yakalama ağı ve iniş iletkenleri – plan, ön ve yan görünüş</h2><h2 style="margin-top:4px;text-transform:none">Plan (üstten görünüş)</h2><div id="plan"></div><p class="cap">Mavi halkalar pasif yakalama uçları (ağ modunda yeşil ızgara), kırmızı noktalar iniş iletkenleri, kesikli çizgi halka topraklama.</p><h2 style="margin-top:14px;text-transform:none">Ön görünüş</h2><div id="vf"></div><h2 style="margin-top:14px;text-transform:none">Yan görünüş</h2><div id="vs"></div><p class="cap">Ön/yan görünüşte mavi çizgiler pasif yakalama uçları, turuncu çizgiler iniş iletkenleri (soluk olanlar arka yüzde), kahverengi kesikli çizgi halka topraklayıcıdır.</p></section>
+<section class="p"><h2>Tasarım parametreleri</h2><table id="tb"></table></section></div>
+</div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+const LV={1:{R:20,M:5,D:10,E:.98,Imax:200,Imin:3,ki:.08},2:{R:30,M:10,D:10,E:.95,Imax:150,Imin:5,ki:.06},3:{R:45,M:15,D:15,E:.90,Imax:100,Imin:10,ki:.04},4:{R:60,M:20,D:20,E:.80,Imax:100,Imin:16,ki:.04}};
+const $=i=>document.getElementById(i),n=i=>parseFloat($(i).value),f=(x,d=2)=>x.toLocaleString('tr-TR',{minimumFractionDigits:d,maximumFractionDigits:d});
+function rodN(L,W,R,h){const m=Math.min(h,R),rr=Math.sqrt(m*(2*R-m));let o={nx:0,ny:0,cnt:0,ok:false},best=1e9;if(!(rr>0))return o;
+ for(let a=1;a<=40;a++)for(let b=1;b<=40;b++)if(.5*Math.hypot(L/a,W/b)<=rr&&(a+1)*(b+1)<best){best=(a+1)*(b+1);o={nx:a,ny:b,cnt:best,ok:true}}return o}
+function calc(){
+ const L=n('L'),W=n('W'),H=n('H'),hr=n('hr')||0,Cd=n('cd'),Ng=n('ng');
+ if([L,W,H,Ng].some(v=>!(v>0)))return null;
+ const Ad=L*W+2*(3*H)*(L+W)+Math.PI*(3*H)**2, Nd=Ng*Ad*Cd*1e-6, C=n('c2')*n('c3')*n('c4')*n('c5'), Nc=5.5e-3/C;
+ const E=1-Nc/Nd; let auto,note;
+ if(E<=0){auto=0;note='LPS gerekmeyebilir (Nd ≤ Nc)'}else if(E>.98){auto=1;note='LPL I + ek önlemler gerekir'}else if(E>.95)auto=1;else if(E>.90)auto=2;else if(E>.80)auto=3;else auto=4;
+ const sel=+$('lv').value, lp=sel||auto||4, P=LV[lp];
+ const nm=Math.ceil(L/P.M), mm=Math.ceil(W/P.M), mw=L/nm, mh=W/mm;
+ const per=2*(L+W), nd=Math.max(2,Math.ceil(per/P.D)), kc=nd>=3?.44:.66, s=P.ki*kc/.5*(H+hr);
+ const aeLen=(nm+1)*W+(mm+1)*L, R=P.R, rr=hr>0?Math.sqrt(Math.min(hr,R)*(2*R-Math.min(hr,R))):0;
+ return {rd:rodN(L,W,R,hr),alt:[1,2,3,4,6].map(h=>rodN(L,W,R,h)),sys:$("sys").value,L,W,H,hr,Ad,Nd,Nc,C,E,auto,sel,lp,P,nm,mm,mw,mh,per,nd,s,aeLen,rr,note,kc,sph:H+hr<R};
+}
+function plan(r){
+ const Wd=420,Hd=300,m=40,sc=Math.min((Wd-2*m)/r.L,(Hd-2*m)/r.W),w=r.L*sc,h=r.W*sc,x0=(Wd-w)/2,y0=(Hd-h)/2;
+ let s=`<svg viewBox="0 0 ${Wd} ${Hd}" role="img" aria-label="Plan">`;
+ s+=`<rect class="sb" x="${x0}" y="${y0}" width="${w}" height="${h}"/>`;
+ for(let i=0;i<=r.nm;i++){const x=x0+i*w/r.nm;s+=`<path d="M${x} ${y0}V${y0+h}" stroke="var(--ok)" stroke-width="1.2" stroke-opacity="${r.sys==='mesh'?1:0}"/>`}
+ for(let j=0;j<=r.mm;j++){const y=y0+j*h/r.mm;s+=`<path d="M${x0} ${y}H${x0+w}" stroke="var(--ok)" stroke-width="1.2" stroke-opacity="${r.sys==='mesh'?1:0}"/>`}
+ s+=`<rect x="${x0-9}" y="${y0-9}" width="${w+18}" height="${h+18}" fill="none" stroke="var(--bd)" stroke-dasharray="5 4"/>`;
+ const Pm=r.per;for(let i=0;i<r.nd;i++){let t=i*Pm/r.nd,x,y;
+  if(t<r.L){x=t;y=0}else if(t<r.L+r.W){x=r.L;y=t-r.L}else if(t<2*r.L+r.W){x=r.L-(t-r.L-r.W);y=r.W}else{x=0;y=r.W-(t-2*r.L-r.W)}
+  s+=`<circle cx="${x0+x*sc}" cy="${y0+y*sc}" r="4.5" fill="var(--hi)"/>`}
+ if(r.sys==='rod'&&r.rd.ok){for(let i=0;i<=r.rd.nx;i++)for(let j=0;j<=r.rd.ny;j++){s+=`<circle cx="${x0+i*w/r.rd.nx}" cy="${y0+j*h/r.rd.ny}" r="4" fill="var(--pn)" stroke="var(--ac)" stroke-width="2.2"/>`}}
+ s+=`<text class="tx" x="${Wd/2}" y="${y0+h+30}" text-anchor="middle">L = ${f(r.L,1)} m  ·  ağ gözü ≈ ${f(r.mw,1)} × ${f(r.mh,1)} m</text>`;
+ s+=`<text class="tx" x="${x0-14}" y="${y0+h/2}" text-anchor="middle" transform="rotate(-90 ${x0-14} ${y0+h/2})">W = ${f(r.W,1)} m</text></svg>`;return s}
+let G=null,last=0,run=true,U=0,man=null,cam={yaw:-.55,pit:.5,zoom:1};const CW=1200,CH=680;
+function setup(r){const R=r.P.R,useR=r.sys==='rod'&&r.rd.ok,xs=[],ys=[];
+ if(useR){for(let i=0;i<=r.rd.nx;i++)xs.push(r.L*i/r.rd.nx);for(let j=0;j<=r.rd.ny;j++)ys.push(r.W*j/r.rd.ny)}
+ const nl=useR?r.rd.ny:r.mm,lanes=[];for(let j=0;j<nl;j++)lanes.push((j+.5)*r.W/nl);
+ const dc=[];for(let i=0;i<r.nd;i++){let t=i*r.per/r.nd,x,y,w;
+  if(t<r.L){x=t;y=0;w=0}else if(t<r.L+r.W){x=r.L;y=t-r.L;w=1}else if(t<2*r.L+r.W){x=r.L-(t-r.L-r.W);y=r.W;w=2}else{x=0;y=r.W-(t-2*r.L-r.W);w=3}dc.push([x,y,w])}
+ G={R,L:r.L,W:r.W,H:r.H,hr:useR?r.hr:0,xs,ys,useR,mesh:r.sys==='mesh',nm:r.nm,mm:r.mm,lanes,dc,lp:r.lp,ring:RING[$('mt').value],ext:r.L+2*R,hz:r.H+(useR?r.hr:0)+2*R,msg:''}}
+function cp(p){const g=G,cy=Math.cos(cam.yaw),sy=Math.sin(cam.yaw),c=Math.cos(cam.pit),s=Math.sin(cam.pit);
+ const X=p[0]-g.L/2,Y=p[1]-g.W/2,Z=p[2]-g.hz/2,x1=X*cy-Y*sy,y1=X*sy+Y*cy,d=g.D+y1*c-Z*s;
+ return [CW/2+g.F*x1/d,CH/2-g.F*(y1*s+Z*c)/d,d]}
+function sup(x,y){const g=G,R=g.R,dh=Math.hypot(Math.max(0,-x,x-g.L),Math.max(0,-y,y-g.W));
+ const roof=dh<R?g.H+Math.sqrt(R*R-dh*dh):0;let rod=0;
+ if(g.useR)g.xs.forEach(px=>g.ys.forEach(py=>{const d=Math.hypot(x-px,y-py);if(d<R)rod=Math.max(rod,g.H+g.hr+Math.sqrt(R*R-d*d))}));
+ const z=Math.max(R,roof,rod);let t=0;
+ if(rod>R+1e-6&&rod>=roof-1e-6)t=1;else if(roof>R+1e-6)t=g.mesh?1:2;
+ return {z,t}}
+function ln(c,a,b,col,w,dash){const A=cp(a),B=cp(b);c.beginPath();c.setLineDash(dash||[]);c.strokeStyle=col;c.lineWidth=w;c.moveTo(A[0],A[1]);c.lineTo(B[0],B[1]);c.stroke();c.setLineDash([])}
+function poly(c,P,fill,st,al){c.beginPath();P.map(cp).forEach((p,i)=>i?c.lineTo(p[0],p[1]):c.moveTo(p[0],p[1]));c.closePath();c.globalAlpha=al||1;c.fillStyle=fill;c.fill();c.globalAlpha=1;if(st){c.strokeStyle=st;c.lineWidth=1.3;c.stroke()}}
+function draw(c){const g=G,cs=getComputedStyle(document.documentElement),V=k=>EXP?LIGHT[k]:cs.getPropertyValue(k).trim();
+ const R=g.R,L=g.L,W=g.W,H=g.H,hr=g.hr,ca=Math.cos(cam.pit),sa=Math.sin(cam.pit);
+ g.D=2*Math.max(g.ext,g.hz,W+2*R);g.F=.9*g.D*Math.min(CW/(Math.hypot(g.ext,W+2*R)*.8),CH/(g.hz*ca+(W+2*R)*sa))*cam.zoom;
+ const cy=Math.cos(cam.yaw),sy=Math.sin(cam.yaw),cw=[L/2-g.D*ca*sy,W/2-g.D*ca*cy,g.hz/2+g.D*sa];
+ c.clearRect(0,0,CW,CH);if(EXP){c.fillStyle="#fff";c.fillRect(0,0,CW,CH)}
+ poly(c,[[-R,-R,0],[L+R,-R,0],[L+R,W+R,0],[-R,W+R,0]],V('--st'),V('--ln'),.4);
+ const e=1.5;[[-e,-e],[L+e,-e],[L+e,W+e],[-e,W+e]].forEach((a,i,A)=>{const b=A[(i+1)%4];ln(c,[a[0],a[1],0],[b[0],b[1],0],'#b07a3c',3,[8,5])});
+ const cn=[[0,0],[L,0],[L,W],[0,W]],nr=[[0,-1],[1,0],[0,1],[-1,0]],vis=[];
+ for(let i=0;i<4;i++){const a=cn[i],b=cn[(i+1)%4],mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2;
+  vis[i]=nr[i][0]*(cw[0]-mx)+nr[i][1]*(cw[1]-my)>0;
+  if(vis[i])poly(c,[[a[0],a[1],0],[b[0],b[1],0],[b[0],b[1],H],[a[0],a[1],H]],V('--st'),V('--bd'),i%2?.85:1)}
+ poly(c,[[0,0,H],[L,0,H],[L,W,H],[0,W,H]],V('--pn'),V('--bd'));
+ g.dc.forEach(d=>{if(vis[d[2]])ln(c,[d[0],d[1],0],[d[0],d[1],H],V('--hi'),2.4)});
+ if(g.mesh){for(let i=0;i<=g.nm;i++)ln(c,[L*i/g.nm,0,H],[L*i/g.nm,W,H],V('--ok'),1.6);for(let j=0;j<=g.mm;j++)ln(c,[0,W*j/g.mm,H],[L,W*j/g.mm,H],V('--ok'),1.6)}
+ if(g.useR)g.xs.forEach(x=>g.ys.forEach(y=>{ln(c,[x,y,H],[x,y,H+hr],V('--ac'),3);const p=cp([x,y,H+hr]);c.beginPath();c.arc(p[0],p[1],3.5,0,7);c.fillStyle=V('--ac');c.fill()}));
+ let lane,x;if(man){x=man.x;lane=man.y}else{lane=g.lanes[Math.floor(U)%g.lanes.length];x=-R+(L+2*R)*(U%1)}g.cur=[x,lane];const o=sup(x,lane),z=o.z;
+ const col=o.t===1?'#2fa563':o.t===2?'#dd3333':V('--ac');
+ const gp=cp([x,lane,0]),cc=cp([x,lane,z]),rp=R*g.F/cc[2];g.sph={x:cc[0],y:cc[1],rp,z};
+ c.beginPath();c.ellipse(gp[0],gp[1],R*g.F/gp[2],R*g.F/gp[2]*sa,0,0,7);c.fillStyle='rgba(0,0,0,.18)';c.fill();
+ c.beginPath();c.arc(cc[0],cc[1],rp,0,7);c.globalAlpha=.2;c.fillStyle=col;c.fill();c.globalAlpha=1;c.strokeStyle=col;c.lineWidth=1.5;c.stroke();
+ const th=x/R,ph=man?lane/R:0,sp=(a,l)=>{const bx=Math.cos(l)*Math.sin(a+th),by=Math.sin(l),bz=Math.cos(l)*Math.cos(a+th);return [x+R*bx,lane+R*(by*Math.cos(ph)+bz*Math.sin(ph)),z+R*(-by*Math.sin(ph)+bz*Math.cos(ph))]};
+ const fr=p=>(p[0]-x)*(cw[0]-p[0])+(p[1]-lane)*(cw[1]-p[1])+(p[2]-z)*(cw[2]-p[2])>0;
+ const loop=fn=>{let pv=null;for(let i=0;i<=48;i++){const p=fn(i/48*2*Math.PI),q=cp(p),f=fr(p);if(pv){c.beginPath();c.moveTo(pv[0],pv[1]);c.lineTo(q[0],q[1]);c.strokeStyle=col;c.globalAlpha=f?.85:.15;c.lineWidth=f?1.8:1;c.stroke()}pv=q}c.globalAlpha=1};
+ for(let k=0;k<6;k++)loop(t=>sp(k*Math.PI/6,t));[0,.75,-.75].forEach(l=>loop(t=>sp(t,l)));
+ [[.4,.3],[2.5,-.4],[4.4,.1],[1.5,.9]].forEach(s=>{const p=sp(s[0],s[1]);if(fr(p)){const q=cp(p);c.beginPath();c.arc(q[0],q[1],5,0,7);c.fillStyle=col;c.fill()}});
+ const msg=o.t===1?'Küre yakalama ucuna değiyor – koruma YETERLİ':o.t===2?'Küre yapıya değiyor – koruma YETERSİZ':'Küre yalnızca zemine değiyor',mc=o.t===1?'#2fa563':o.t===2?'#dd3333':V('--mu');
+ if(g.msg!==msg){g.msg=msg;const s=$('stt');s.textContent=msg;s.style.color=mc;s.style.fontWeight=600}
+ c.font='500 20px system-ui';c.fillStyle=V('--fg');c.textAlign='left';
+ c.fillText(`R = ${R} m (LPL ${RN[g.lp]}) · H = ${f(H,1)} m`+(g.useR?` · hr = ${f(hr,1)} m · ${g.xs.length}×${g.ys.length} çubuk`:g.mesh?' · ağ iletken':' · çubuk yok/yetersiz'),16,30);
+ c.fillStyle=mc;c.fillText(msg,16,58);
+ const lg=[['#b07a3c','Halka topraklayıcı: '+g.ring],[V('--hi'),'İniş iletkeni'],['#2fa563','Küre yakalama ucunda'],['#dd3333','Küre yapıya değiyor']];
+ lg.forEach((l,i)=>{c.fillStyle=l[0];c.fillRect(16,CH-100+i*26,22,10);c.fillStyle=V('--fg');c.font='17px system-ui';c.fillText(l[1],46,CH-91+i*26)})}
+function frame(ts){const cv=$('cv');if(G&&cv){if(run)U+=Math.min(ts-last,50)/9000;draw(cv.getContext('2d'))}last=ts;requestAnimationFrame(frame)}
+
+const RING={35:'Bakır (min 50 mm²)',70:'Bakır (min 50 mm²) – Al toprağa gömülemez',50:'Galvanizli çelik (min 78 mm² yuvarlak / 90 mm² şerit)'};
+let EXP=false;const LIGHT={'--st':'#c9d3dd','--ln':'#d3dae1','--bd':'#8fa1b3','--pn':'#fff','--fg':'#17212b','--mu':'#5d6b79','--hi':'#d9541e','--ac':'#0b6e99','--ok':'#2e7d4f'};
+function unp(sx,sy,zw){const g=G,c=Math.cos(cam.pit),s=Math.sin(cam.pit),cy=Math.cos(cam.yaw),sn=Math.sin(cam.yaw),Z=zw-g.hz/2,k=(CH/2-sy)/g.F;
+ const y1=(Z*c-k*g.D+k*Z*s)/(k*c-s),d=g.D+y1*c-Z*s,x1=(sx-CW/2)*d/g.F;return [g.L/2+x1*cy+y1*sn,g.W/2-x1*sn+y1*cy]}
+(()=>{const cv=$('cv'),P=new Map();let mode=null,off=[0,0],pd=0;
+ const pos=e=>{const b=cv.getBoundingClientRect();return [(e.clientX-b.left)*CW/b.width,(e.clientY-b.top)*CH/b.height]};
+ const cl=(v,a,b)=>Math.min(b,Math.max(a,v));
+ cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);const p=pos(e);P.set(e.pointerId,p);
+  if(P.size>1){mode='pinch';const a=[...P.values()];pd=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]);return}
+  const s=G&&G.sph;if(s&&Math.hypot(p[0]-s.x,p[1]-s.y)<s.rp){mode='sph';run=false;man={x:G.cur[0],y:G.cur[1]};$('pl').textContent='▶ Oynat';const w=unp(p[0],p[1],s.z);off=[man.x-w[0],man.y-w[1]];cv.style.cursor='grabbing'}else mode='cam'});
+ cv.addEventListener('pointermove',e=>{if(!P.has(e.pointerId))return;const q=P.get(e.pointerId),p=pos(e);P.set(e.pointerId,p);
+  if(mode==='pinch'&&P.size>1){const a=[...P.values()],d=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]);if(pd)cam.zoom=cl(cam.zoom*d/pd,.3,4);pd=d}
+  else if(mode==='sph'){const w=unp(p[0],p[1],G.sph.z),R=G.R;man.x=cl(w[0]+off[0],-R,G.L+R);man.y=cl(w[1]+off[1],-R,G.W+R)}
+  else if(mode==='cam'){cam.yaw+=(p[0]-q[0])*.005;cam.pit=cl(cam.pit+(p[1]-q[1])*.004,.1,1.3)}});
+ const up=e=>{P.delete(e.pointerId);if(!P.size){mode=null;cv.style.cursor='grab'}else if(P.size===1)mode='cam'};
+ ['pointerup','pointercancel'].forEach(t=>cv.addEventListener(t,up));
+ cv.addEventListener('wheel',e=>{e.preventDefault();cam.zoom=cl(cam.zoom*Math.exp(-e.deltaY*.0015),.3,4)},{passive:false})})();
+function sideV(len,H,hr,xs,dc,lab){const Wd=420,Hd=250,gy=Hd-40,sc=Math.min((Wd-60)/len,(gy-26)/(H+hr)),w=len*sc,x0=(Wd-w)/2;
+ let s=`<svg viewBox="0 0 ${Wd} ${Hd}" role="img" aria-label="${lab}"><path d="M10 ${gy}H${Wd-10}" class="sl"/><rect class="sb" x="${x0}" y="${gy-H*sc}" width="${w}" height="${H*sc}"/><path d="M${x0-9} ${gy+5}H${x0+w+9}" stroke="#b07a3c" stroke-width="3.5" stroke-dasharray="6 3"/>`;
+ xs.forEach(x=>{const X=x0+x*sc;s+=`<path d="M${X} ${gy-H*sc}V${gy-(H+hr)*sc}" stroke="var(--ac)" stroke-width="3"/><circle cx="${X}" cy="${gy-(H+hr)*sc}" r="3.2" fill="var(--ac)"/>`});
+ dc.forEach(d=>{const X=x0+d[0]*sc;s+=`<path d="M${X} ${gy-H*sc}V${gy}" stroke="var(--hi)" stroke-width="2.4" stroke-opacity="${d[1]?1:.35}"/>`});
+ s+=`<text class="tx" x="${Wd/2}" y="${gy+24}" text-anchor="middle">${lab} · ${f(len,1)} m</text><text class="mu" x="${Wd/2}" y="${gy+37}" text-anchor="middle">halka topraklayıcı: ${G.ring}</text>`;
+ s+=`<text class="tx" x="${x0-8}" y="${gy-H*sc/2}" text-anchor="middle" transform="rotate(-90 ${x0-8} ${gy-H*sc/2})">H = ${f(H,1)} m</text>`;
+ return s+'</svg>'}
+function views(){const g=G;$('vf').innerHTML=sideV(g.L,g.H,g.hr,g.xs,g.dc.map(d=>[d[0],d[2]!=2]),'Ön görünüş');$('vs').innerHTML=sideV(g.W,g.H,g.hr,g.ys,g.dc.map(d=>[d[1],d[2]!=3]),'Yan görünüş')}
+const PC="Adana:37,35.32;Adıyaman:37.76,38.28;Afyonkarahisar:38.76,30.54;Ağrı:39.72,43.05;Aksaray:38.37,34.03;Amasya:40.65,35.83;Ankara:39.93,32.86;Antalya:36.9,30.7;Ardahan:41.11,42.7;Artvin:41.18,41.82;Aydın:37.85,27.84;Balıkesir:39.65,27.89;Bartın:41.63,32.34;Batman:37.88,41.13;Bayburt:40.26,40.23;Bilecik:40.14,29.98;Bingöl:38.88,40.5;Bitlis:38.4,42.11;Bolu:40.73,31.61;Burdur:37.72,30.29;Bursa:40.18,29.06;Çanakkale:40.15,26.41;Çankırı:40.6,33.62;Çorum:40.55,34.95;Denizli:37.78,29.09;Diyarbakır:37.91,40.24;Düzce:40.84,31.16;Edirne:41.68,26.56;Elazığ:38.67,39.22;Erzincan:39.75,39.49;Erzurum:39.9,41.27;Eskişehir:39.78,30.52;Gaziantep:37.07,37.38;Giresun:40.91,38.39;Gümüşhane:40.46,39.48;Hakkâri:37.58,43.74;Hatay:36.4,36.35;Iğdır:39.92,44.04;Isparta:37.76,30.55;İstanbul:41.01,28.98;İzmir:38.42,27.14;Kahramanmaraş:37.58,36.94;Karabük:41.2,32.62;Karaman:37.18,33.22;Kars:40.6,43.1;Kastamonu:41.38,33.78;Kayseri:38.72,35.49;Kilis:36.72,37.12;Kırıkkale:39.85,33.52;Kırklareli:41.74,27.22;Kırşehir:39.15,34.17;Kocaeli:40.77,29.94;Konya:37.87,32.48;Kütahya:39.42,29.98;Malatya:38.35,38.31;Manisa:38.61,27.43;Mardin:37.31,40.74;Mersin:36.8,34.64;Muğla:37.22,28.36;Muş:38.74,41.49;Nevşehir:38.62,34.71;Niğde:37.97,34.68;Ordu:40.98,37.88;Osmaniye:37.07,36.25;Rize:41.02,40.52;Sakarya:40.69,30.4;Samsun:41.29,36.33;Siirt:37.93,41.94;Sinop:42.03,35.15;Sivas:39.75,37.02;Şanlıurfa:37.16,38.79;Şırnak:37.52,42.46;Tekirdağ:40.98,27.51;Tokat:40.31,36.55;Trabzon:41,39.72;Tunceli:39.11,39.55;Uşak:38.68,29.41;Van:38.5,43.38;Yalova:40.65,29.27;Yozgat:39.82,34.8;Zonguldak:41.45,31.8".split(';').map(t=>{const a=t.split(':'),b=a[1].split(',');return {n:a[0],lat:+b[0],lon:+b[1]}});
+const OUT=[[26.05,41.3],[26.35,41.75],[27,42],[28,41.95],[29.1,41.2],[30.5,41.15],[31.5,41.15],[32.3,41.75],[33,42],[34.2,42],[35.2,42.05],[36,41.65],[36.7,41.3],[38.5,40.95],[39.7,41.1],[41,41.5],[41.6,41.55],[42.5,41.55],[43.4,41.1],[43.7,40.7],[43.65,40.15],[44.3,40],[44.8,39.7],[44.4,39.4],[44.05,39],[44.4,38.3],[44.2,37.9],[44.6,37.2],[44.2,37.05],[42.35,37.1],[41.2,37.1],[40,36.9],[38.7,36.7],[37.1,36.65],[36.7,36.8],[36.2,36.65],[36.15,35.95],[35.9,36],[35.8,36.6],[34.6,36.6],[33.6,36.1],[32.5,36.1],[31,36.8],[30.5,36.3],[29.5,36.2],[28.6,36.6],[27.4,37],[27.2,37.4],[26.9,38],[26.3,38.3],[26.5,38.7],[26.9,39.2],[26.2,39.5],[26.2,40],[26.05,40.4],[26,40.8]];
+const mx=o=>(o-25.5)*.777*19+8,my=a=>(42.3-a)*19+8;
+function drawMap(name){let s=`<path d="M${OUT.map(p=>mx(p[0]).toFixed(1)+' '+my(p[1]).toFixed(1)).join('L')}Z" fill="var(--st)" stroke="var(--bd)" stroke-width="1.2" stroke-linejoin="round"/>`;
+ PC.forEach(p=>{if(p.n!==name)s+=`<circle cx="${mx(p.lon).toFixed(1)}" cy="${my(p.lat).toFixed(1)}" r="1.5" fill="var(--bd)"/>`});
+ const p=PC.find(q=>q.n===name);
+ if(p){const x=mx(p.lon),y=my(p.lat),r=x>230;s+=`<circle cx="${x}" cy="${y}" r="9" fill="var(--hi)" fill-opacity=".25" stroke="var(--hi)"/><circle cx="${x}" cy="${y}" r="4.5" fill="var(--hi)"/><text x="${r?x-12:x+12}" y="${y-8}" text-anchor="${r?'end':'start'}" style="font:600 12px system-ui;fill:var(--fg)">${p.n}</text>`}
+ $('map').innerHTML=s;$('mapcap').textContent=p?'Seçilen il: '+p.n:'İl seçilmedi (manuel Ng girişi)'}
+function svgImg(el){return new Promise(res=>{let t=new XMLSerializer().serializeToString(el).replace(/var\(--(\w+)\)/g,(m,k)=>LIGHT['--'+k]);
+ t=t.replace('>','><style>.sl{stroke:#17212b;fill:none;stroke-width:1.5}.sb{fill:#c9d3dd;stroke:#8fa1b3;stroke-width:1.5}.tx{fill:#17212b;font:500 11px system-ui,sans-serif}.mu{fill:#5d6b79;font:11px system-ui,sans-serif}</style>');
+ const i=new Image();i.onload=()=>res(i);i.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(t)})}
+async function getDL(){const m=$('exmsg');try{const d=window.claude&&await claude.use('downloads');if(d)return d}catch(e){}m.textContent='Bu görünümde dosya indirme kullanılamıyor.';return null}
+async function put(d,name,data){try{await d.save({filename:name,data});$('exmsg').textContent=name+' hazır.'}catch(e){$('exmsg').textContent=e&&e.code==='declined'?'İndirme iptal edildi.':'İndirme yapılamadı: '+(e&&e.message||e)}}
+async function mkPDF(){const PW=1240,PH=1754,M=80,pages=[];let c,y;
+ const np=()=>{const cv=document.createElement('canvas');cv.width=PW;cv.height=PH;c=cv.getContext('2d');c.fillStyle='#fff';c.fillRect(0,0,PW,PH);y=M;pages.push(cv)};
+ const fnt=(sz,b,col)=>{c.font=`${b?600:400} ${sz}px system-ui,"Segoe UI",sans-serif`;c.fillStyle=col||'#17212b'};
+ const wr=(t,w)=>{const o=[];String(t).split('\n').forEach(p=>{let l='';p.split(' ').forEach(wd=>{const tt=l?l+' '+wd:wd;if(l&&c.measureText(tt).width>w){o.push(l);l=wd}else l=tt});o.push(l)});return o};
+ const txt=(t,sz,b,col)=>{fnt(sz,b,col);wr(t,PW-2*M).forEach(l=>{if(y+sz*1.5>PH-M){np();fnt(sz,b,col)}y+=sz*1.35;c.fillText(l,M,y)});y+=sz*.3};
+ const pic=(im,w,h)=>{if(y+h>PH-M)np();c.drawImage(im,M,y,w,h);y+=h+14};
+ np();txt('Yıldırımdan Korunma Tasarımı – IEC 62305',40,1);
+ txt(`Tarih: ${new Date().toLocaleDateString('tr-TR')} · İl: ${$('il').selectedOptions[0].text} · Ng = ${$('ng').value} /km²·yıl · Yapı: ${$('L').value} × ${$('W').value} × ${$('H').value} m`,20,0,'#5d6b79');y+=10;
+ document.querySelectorAll('.k .c').forEach(k=>txt(k.querySelector('span').textContent+': '+k.querySelector('b').textContent,22,0));y+=14;
+ EXP=true;const oc=document.createElement('canvas');oc.width=CW;oc.height=CH;draw(oc.getContext('2d'));EXP=false;
+ pic(oc,PW-2*M,(PW-2*M)*CH/CW);
+ for(const [id,t] of [['plan','Plan (üstten görünüş)'],['vf','Ön görünüş'],['vs','Yan görünüş']]){const im=await svgImg($(id).firstChild);txt(t,24,1);pic(im,620,620*250/420*(id==='plan'?300/250:1))}
+ if(D){EXP=true;dvDraw();const dv=$('dv'),im=new Image();await new Promise(rs=>{im.onload=rs;im.src=dv.toDataURL()});EXP=false;dvDraw();txt('Mimari çizim üzerine tasarım',24,1);pic(im,PW-2*M,(PW-2*M)*DH/DW)}txt('Tasarım parametreleri',28,1);y+=6;fnt(20,0);
+ for(const tr of document.querySelectorAll('#tb tr')){const a=tr.cells[0].innerText,b=tr.cells[1].innerText;fnt(19,0);const la=wr(a,400),lb=wr(b,PW-2*M-440),h=Math.max(la.length,lb.length)*27+16;
+  if(y+h>PH-M)np();c.strokeStyle='#d3dae1';c.beginPath();c.moveTo(M,y);c.lineTo(PW-M,y);c.stroke();fnt(19,0,'#5d6b79');la.forEach((l,i)=>c.fillText(l,M,y+28+i*27));fnt(19,0);lb.forEach((l,i)=>c.fillText(l,M+440,y+28+i*27));y+=h}
+ y+=20;txt('Faktör değerleri ön tasarım içindir; nihai tasarımda IEC 62305-2 Ek NB tabloları ve ulusal şartname (TS EN 62305) ile doğrulayın.',17,0,'#5d6b79');
+ const doc=new window.jspdf.jsPDF({unit:'mm',format:'a4'});pages.forEach((p,i)=>{if(i)doc.addPage();doc.addImage(p.toDataURL('image/jpeg',.92),'JPEG',0,0,210,297)});return doc.output('blob')}
+function mkXLS(){const X=XLSX,wb=X.utils.book_new(),inp=[['Girdi','Değer']];
+ document.querySelectorAll('section.p label').forEach(l=>{const cl=l.cloneNode(true);cl.querySelectorAll('input,select').forEach(e=>e.remove());const e=l.querySelector('input,select');if(e)inp.push([cl.textContent.trim(),e.tagName==='SELECT'?e.selectedOptions[0].text:e.value])});
+ const res=[['Parametre','Değer']];document.querySelectorAll('#tb tr').forEach(t=>res.push([t.cells[0].innerText,t.cells[1].innerText.replace(/\n/g,' ')]));
+ document.querySelectorAll('.k .c').forEach(k=>res.push([k.querySelector('span').textContent,k.querySelector('b').textContent]));
+ const g=G,pt=[['Tür','X (m)','Y (m)','Z (m)']];g.xs.forEach(x=>g.ys.forEach(y=>pt.push(['Pasif yakalama ucu',+x.toFixed(2),+y.toFixed(2),g.H+g.hr])));g.dc.forEach((d,i)=>pt.push(['İniş iletkeni '+(i+1),+d[0].toFixed(2),+d[1].toFixed(2),0]));
+ [['Girdiler',inp,[46,32]],['Sonuçlar',res,[52,90]],['Koordinatlar',pt,[26,10,10,10]]].forEach(a=>{const w=X.utils.aoa_to_sheet(a[1]);w['!cols']=a[2].map(v=>({wch:v}));X.utils.book_append_sheet(wb,w,a[0])});
+ return new Blob([X.write(wb,{type:'array',bookType:'xlsx'})],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})}
+async function doExp(kind){const m=$('exmsg');m.textContent='Hazırlanıyor…';const d=await getDL();if(!d)return;try{const b=kind==='pdf'?await mkPDF():mkXLS();await put(d,'yildirimdan-korunma-tasarimi.'+(kind==='pdf'?'pdf':'xlsx'),b)}catch(e){m.textContent='Dosya oluşturulamadı: '+(e&&e.message||e)}}
+$('bpdf').addEventListener('click',()=>doExp('pdf'));$('bxls').addEventListener('click',()=>doExp('xls'));
+$('bprn').addEventListener('click',()=>{try{window.print()}catch(e){$('exmsg').textContent='Yazdırma bu görünümde engelli; PDF indirip yazdırın.'}});
+addEventListener('beforeprint',()=>{EXP=true;if(G)draw($('cv').getContext('2d'))});addEventListener('afterprint',()=>{EXP=false});
+let D=null,LR=null,DV={s:1,tx:0,ty:0,fit:true};const DW=1200,DH=700,LCOL={LPS_YAKALAMA:5,LPS_INIS:30,LPS_TOPRAK:34,LPS_YAPI:8,LPS_NOT:7};
+const mul=(m,n)=>[m[0]*n[0]+m[2]*n[1],m[1]*n[0]+m[3]*n[1],m[0]*n[2]+m[2]*n[3],m[1]*n[2]+m[3]*n[3],m[0]*n[4]+m[2]*n[5]+m[4],m[1]*n[4]+m[3]*n[5]+m[5]];
+const ap=(m,x,y)=>[m[0]*x+m[2]*y+m[4],m[1]*x+m[3]*y+m[5]];
+function parseDXF(t){const Ls=t.split(/\r?\n/),P=[];for(let i=0;i+1<Ls.length;i+=2)P.push([parseInt(Ls[i],10),Ls[i+1].trim()]);
+ let sec='',ins=null;const E=[],B=[],g=(r,c)=>{const q=r.p.find(a=>a[0]===c);return q?q[1]:undefined};
+ for(let i=0;i<P.length;i++){const c=P[i][0],v=P[i][1];if(c===9&&v==='$INSUNITS'&&P[i+1])ins=+P[i+1][1];
+  if(c===0){if(v==='SECTION')sec=(P[i+1]||[0,''])[1];else if(v==='ENDSEC')sec='';else{const r={t:v,p:[]};if(sec==='ENTITIES')E.push(r);else if(sec==='BLOCKS')B.push(r)}}
+  else{const a=sec==='ENTITIES'?E:sec==='BLOCKS'?B:null;if(a&&a.length)a[a.length-1].p.push([c,v])}}
+ const blocks={};let cb=null;B.forEach(r=>{if(r.t==='BLOCK'){cb={base:[+g(r,10)||0,+g(r,20)||0],e:[]};blocks[g(r,2)]=cb}else if(r.t==='ENDBLK')cb=null;else if(cb)cb.e.push(r)});
+ const S=[],seg=(m,x1,y1,x2,y2)=>{const a=ap(m,x1,y1),b=ap(m,x2,y2);if([a[0],a[1],b[0],b[1]].every(isFinite))S.push([a[0],a[1],b[0],b[1]])};
+ const poly=(m,p,cl)=>{for(let i=0;i+1<p.length;i++)seg(m,p[i][0],p[i][1],p[i+1][0],p[i+1][1]);if(cl&&p.length>2)seg(m,p[p.length-1][0],p[p.length-1][1],p[0][0],p[0][1])};
+ const arc=(m,cx,cy,r,a1,a2)=>{while(a2<=a1)a2+=360;const n=Math.max(4,Math.ceil((a2-a1)/10)),p=[];for(let i=0;i<=n;i++){const a=(a1+(a2-a1)*i/n)*Math.PI/180;p.push([cx+r*Math.cos(a),cy+r*Math.sin(a)])}poly(m,p)};
+ const run=(list,m,d)=>{for(let i=0;i<list.length;i++){const r=list[i],f=c=>+g(r,c)||0;
+  if(r.t==='LINE')seg(m,f(10),f(20),f(11),f(21));else if(r.t==='CIRCLE')arc(m,f(10),f(20),f(40),0,360);else if(r.t==='ARC')arc(m,f(10),f(20),f(40),f(50),f(51));
+  else if(r.t==='LWPOLYLINE'){const p=[];let x=null;r.p.forEach(q=>{if(q[0]===10)x=+q[1];else if(q[0]===20&&x!==null){p.push([x,+q[1]]);x=null}});poly(m,p,f(70)&1)}
+  else if(r.t==='POLYLINE'){const p=[];let j=i+1;while(j<list.length&&list[j].t==='VERTEX'){p.push([+g(list[j],10)||0,+g(list[j],20)||0]);j++}i=j-1;poly(m,p,f(70)&1)}
+  else if(r.t==='INSERT'&&d<4&&blocks[g(r,2)]){const b=blocks[g(r,2)],sx=g(r,41)!==undefined?+g(r,41):1,sy=g(r,42)!==undefined?+g(r,42):sx,a=f(50)*Math.PI/180,co=Math.cos(a),si=Math.sin(a);
+   run(b.e,mul(mul(mul(mul(m,[1,0,0,1,f(10),f(20)]),[co,si,-si,co,0,0]),[sx,0,0,sy,0,0]),[1,0,0,1,-b.base[0],-b.base[1]]),d+1)}}};
+ run(E,[1,0,0,1,0,0],0);let b=[1e18,1e18,-1e18,-1e18];S.forEach(s=>{b[0]=Math.min(b[0],s[0],s[2]);b[1]=Math.min(b[1],s[1],s[3]);b[2]=Math.max(b[2],s[0],s[2]);b[3]=Math.max(b[3],s[1],s[3])});
+ return {segs:S,bb:b,ins}}
+function kU(){const v=$('dwu').value;if(v!=='auto')return +v;return (D&&{1:39.37,2:3.2808,4:1000,5:100,6:1}[D.ins])||(D?1000:1)}
+function ovl(){const g=G,L=g.L,W=g.W,e=1.5,h=Math.max(.3,Math.max(L,W)/90),o=[],ln=(a,b,ly)=>o.push({k:'l',a,b,ly});
+ const R4=[[0,0],[L,0],[L,W],[0,W]],Q=[[-e,-e],[L+e,-e],[L+e,W+e],[-e,W+e]];for(let i=0;i<4;i++){ln(R4[i],R4[(i+1)%4],'LPS_YAPI');ln(Q[i],Q[(i+1)%4],'LPS_TOPRAK')}
+ if(g.mesh){for(let i=0;i<=g.nm;i++)ln([L*i/g.nm,0],[L*i/g.nm,W],'LPS_YAKALAMA');for(let j=0;j<=g.mm;j++)ln([0,W*j/g.mm],[L,W*j/g.mm],'LPS_YAKALAMA')}
+ g.xs.forEach(x=>g.ys.forEach(y=>{o.push({k:'c',c:[x,y],r:.4,ly:'LPS_YAKALAMA'});ln([x-.7,y],[x+.7,y],'LPS_YAKALAMA');ln([x,y-.7],[x,y+.7],'LPS_YAKALAMA')}));
+ g.dc.forEach(d=>{ln([d[0],d[1]],[[d[0],-e],[L+e,d[1]],[d[0],W+e],[-e,d[1]]][d[2]],'LPS_INIS');o.push({k:'c',c:[d[0],d[1]],r:.3,ly:'LPS_INIS'})});
+ const T=['IEC 62305 YILDIRIMDAN KORUNMA TASARIMI – NOTLAR','İl: '+$('il').selectedOptions[0].text+' · Ng = '+$('ng').value+' /km²·yıl · Yapı: '+$('L').value+' × '+$('W').value+' × '+$('H').value+' m'];
+ document.querySelectorAll('#tb tr').forEach(t=>T.push(t.cells[0].innerText+': '+t.cells[1].innerText.replace(/\s*\n\s*/g,' | ')));
+ T.push('Gösterim: mavi daire+artı = pasif yakalama ucu · turuncu = iniş iletkeni · kahverengi = halka topraklayıcı ('+g.ring+')');
+ const k=kU(),nx=(D?(D.bb[2]-D.bb[0])/k:L)+3-(+n('dox')||0),ny=(D?(D.bb[3]-D.bb[1])/k:W)-(+n('doy')||0);let y=ny;
+ T.forEach((t,i)=>{const w=[];let l='';t.split(' ').forEach(a=>{if(l&&(l+' '+a).length>85){w.push(l);l='  '+a}else l=l?l+' '+a:a});w.push(l);w.forEach(s=>{o.push({k:'t',p:[nx,y],h:i?h:h*1.3,s,ly:'LPS_NOT'});y-=h*1.7});y-=h*.4});
+ return o}
+function dvDraw(){if(!G||!LR)return;const cv=$('dv'),c=cv.getContext('2d'),cs=getComputedStyle(document.documentElement),V=k=>EXP?LIGHT[k]:cs.getPropertyValue(k).trim();
+ const k=kU(),O=D?[D.bb[0],D.bb[1]]:[0,0],ox=+n('dox')||0,oy=+n('doy')||0,U=p=>[O[0]+(p[0]+ox)*k,O[1]+(p[1]+oy)*k],it=ovl();
+ let x0=1e18,y0=1e18,x1=-1e18,y1=-1e18;const ex=p=>{x0=Math.min(x0,p[0]);y0=Math.min(y0,p[1]);x1=Math.max(x1,p[0]);y1=Math.max(y1,p[1])};
+ if(D){ex([D.bb[0],D.bb[1]]);ex([D.bb[2],D.bb[3]])}
+ it.forEach(i=>{if(i.k==='l'){ex(U(i.a));ex(U(i.b))}else if(i.k==='c')ex(U(i.c));else{const p=U(i.p);ex(p);ex([p[0]+i.s.length*i.h*.55*k,p[1]])}});
+ const w=x1-x0||1,h=y1-y0||1,s0=Math.min((DW-30)/w,(DH-30)/h);
+ if(DV.fit){DV.s=s0;DV.tx=(DW-w*s0)/2-x0*s0;DV.ty=(DH-h*s0)/2+y1*s0}
+ const X=v=>v*DV.s+DV.tx,Y=v=>DV.ty-v*DV.s;c.clearRect(0,0,DW,DH);if(EXP){c.fillStyle='#fff';c.fillRect(0,0,DW,DH)}
+ if(D){c.beginPath();D.segs.forEach(s=>{c.moveTo(X(s[0]),Y(s[1]));c.lineTo(X(s[2]),Y(s[3]))});c.strokeStyle=V('--bd');c.lineWidth=1;c.stroke()}
+ const col={LPS_YAKALAMA:V('--ac'),LPS_INIS:V('--hi'),LPS_TOPRAK:'#b07a3c',LPS_YAPI:V('--mu'),LPS_NOT:V('--fg')};
+ it.forEach(i=>{c.strokeStyle=c.fillStyle=col[i.ly];c.lineWidth=i.ly==='LPS_YAPI'?1.2:2.2;
+  if(i.k==='l'){const a=U(i.a),b=U(i.b);c.beginPath();c.moveTo(X(a[0]),Y(a[1]));c.lineTo(X(b[0]),Y(b[1]));c.stroke()}
+  else if(i.k==='c'){const p=U(i.c);c.beginPath();c.arc(X(p[0]),Y(p[1]),Math.max(2.5,i.r*k*DV.s),0,7);c.stroke()}
+  else{const p=U(i.p),px=i.h*k*DV.s;if(px>=3){c.font=`${Math.max(px,4)}px system-ui,sans-serif`;c.fillText(i.s,X(p[0]),Y(p[1]))}}})}
+function setFromDrawing(){if(!D)return;const k=kU();$('L').value=Math.max(3,Math.round((D.bb[2]-D.bb[0])/k*10)/10);$('W').value=Math.max(3,Math.round((D.bb[3]-D.bb[1])/k*10)/10);$('dox').value=0;$('doy').value=0;DV.fit=true;render()}
+async function loadDrw(file){const st=$('dst');st.style.color='';
+ const head=new TextDecoder('latin1').decode(await file.slice(0,24).arrayBuffer());
+ if(/^AC10/.test(head)||/dwg$/i.test(file.name)&&!/SECTION|^\s*0/.test(head)){st.textContent='DWG ikili ve kapalı bir formattır; bu sayfa doğrudan okuyamaz. AutoCAD’de “Farklı kaydet → DXF (ASCII)” ya da ücretsiz ODA File Converter ile .dxf’e çevirip yükleyin.';st.style.color='#dd3333';return}
+ if(/Binary DXF/.test(head)){st.textContent='İkili DXF desteklenmiyor; ASCII DXF olarak kaydedip yükleyin.';st.style.color='#dd3333';return}
+ const txt=await file.text(),d=parseDXF(txt);d.text=txt;d.name=file.name;
+ if(!d.segs.length){st.textContent='Dosyada okunabilir çizgi/polyline/yay/daire bulunamadı.';st.style.color='#dd3333';return}
+ D=d;st.textContent=`${file.name}: ${d.segs.length} çizgi parçası okundu (birim: ${$('dwu').value==='auto'?(d.ins?'$INSUNITS='+d.ins:'bilinmiyor → mm varsayıldı'):'elle seçili'}). L/W çizim boyutundan alındı; gerekirse birim ve ofseti düzeltin.`;setFromDrawing();$('dsec').scrollIntoView({behavior:'smooth'})}
+function mkDXF(){const k=kU(),O=D?[D.bb[0],D.bb[1]]:[0,0],ox=+n('dox')||0,oy=+n('doy')||0,U=p=>[O[0]+(p[0]+ox)*k,O[1]+(p[1]+oy)*k],o=[];
+ const q=(c,v)=>o.push(String(c),String(v)),esc=s=>s.replace(/[^\x20-\x7e]/g,ch=>'\\U+'+ch.charCodeAt(0).toString(16).toUpperCase().padStart(4,'0')),F=v=>(+v).toFixed(4);
+ ovl().forEach(i=>{q(0,i.k==='l'?'LINE':i.k==='c'?'CIRCLE':'TEXT');q(8,i.ly);q(62,LCOL[i.ly]);
+  if(i.k==='l'){const a=U(i.a),b=U(i.b);q(10,F(a[0]));q(20,F(a[1]));q(30,0);q(11,F(b[0]));q(21,F(b[1]));q(31,0)}
+  else if(i.k==='c'){const a=U(i.c);q(10,F(a[0]));q(20,F(a[1]));q(30,0);q(40,F(i.r*k))}
+  else{const a=U(i.p);q(10,F(a[0]));q(20,F(a[1]));q(30,0);q(40,F(i.h*k));q(1,esc(i.s))}});
+ const ent=o.join('\n'),lay=Object.keys(LCOL).map(l=>['0','LAYER','2',l,'70','0','62',LCOL[l],'6','CONTINUOUS'].join('\n')).join('\n');
+ if(D&&/\n\s*2\r?\nENTITIES/.test(D.text)){let t=D.text;const a=t.search(/\n\s*2\r?\nENTITIES/),m=t.slice(a).match(/\r?\n\s*0\r?\nENDSEC/);
+  if(m){const at=a+m.index;t=t.slice(0,at)+'\n'+ent+t.slice(at);const lm=t.match(/\n\s*0\r?\nTABLE\r?\n\s*2\r?\nLAYER\r?\n[\s\S]*?\n\s*70\r?\n\s*\d+/);if(lm){const p=lm.index+lm[0].length;t=t.slice(0,p)+'\n'+lay+t.slice(p)}return t}}
+ return ['0','SECTION','2','HEADER','9','$ACADVER','1','AC1009','0','ENDSEC','0','SECTION','2','TABLES','0','TABLE','2','LAYER','70',Object.keys(LCOL).length,lay,'0','ENDTAB','0','ENDSEC','0','SECTION','2','ENTITIES',ent,'0','ENDSEC','0','EOF'].join('\n')}
+$('bld').addEventListener('click',()=>$('dwf').click());$('bdwg').addEventListener('click',()=>$('dwf').click());
+$('dwf').addEventListener('change',e=>{const f=e.target.files[0];if(f)loadDrw(f);e.target.value=''});
+$('bfit').addEventListener('click',setFromDrawing);$('bzf').addEventListener('click',()=>{DV.fit=true;dvDraw()});
+$('bdxf').addEventListener('click',async()=>{const m=$('dst'),d=await getDL();if(!d){m.textContent='Bu görünümde dosya indirme kullanılamıyor.';return}
+ try{const z=new JSZip();z.file('yildirimdan-korunma-tasarimi.dxf',mkDXF());await put(d,'yildirimdan-korunma-tasarimi-dxf.zip',await z.generateAsync({type:'blob'}));m.textContent='ZIP içindeki .dxf dosyasını AutoCAD’de açıp DWG olarak kaydedebilirsiniz.'}catch(e){m.textContent='DXF oluşturulamadı: '+(e&&e.message||e)}});
+(()=>{const cv=$('dv');let dr=null;cv.addEventListener('pointerdown',e=>{dr=[e.clientX,e.clientY];cv.setPointerCapture(e.pointerId);cv.style.cursor='grabbing'});
+ cv.addEventListener('pointermove',e=>{if(!dr)return;const b=cv.getBoundingClientRect(),r=DW/b.width;DV.tx+=(e.clientX-dr[0])*r;DV.ty+=(e.clientY-dr[1])*r;DV.fit=false;dr=[e.clientX,e.clientY];dvDraw()});
+ ['pointerup','pointercancel'].forEach(t=>cv.addEventListener(t,()=>{dr=null;cv.style.cursor='grab'}));
+ cv.addEventListener('wheel',e=>{e.preventDefault();const b=cv.getBoundingClientRect(),mx=(e.clientX-b.left)*DW/b.width,my=(e.clientY-b.top)*DH/b.height,f=Math.exp(-e.deltaY*.0015);DV.tx=mx-(mx-DV.tx)*f;DV.ty=my+(DV.ty-my)*f;DV.s*=f;DV.fit=false;dvDraw()},{passive:false})})();
+addEventListener('beforeprint',()=>dvDraw());addEventListener('afterprint',()=>dvDraw());
+const RN=['','I','II','III','IV'];
+function render(){
+ const r=calc();if(!r){$('tb').innerHTML='<tr><td>Uyarı</td><td class="t-w">L, W, H ve N<sub>g</sub> pozitif olmalı.</td></tr>';return}
+ LR=r;$('plan').innerHTML=plan(r);setup(r);views();
+ $('kN').textContent=r.Nd.toExponential(2).replace('.',',');$('kE').textContent=r.E>0?f(r.E,3):'≤ 0';
+ $('kL').textContent=(r.auto?RN[r.auto]:'Gerekmez')+(r.sel?` (seçilen ${RN[r.sel]})`:'');$('kD').textContent=r.nd;$('kR').textContent=r.sys==='rod'?(r.rd.ok?r.rd.cnt+' adet':'Çok fazla'):'Ağ modu';
+ const P=r.P,warn=r.sel&&r.auto&&r.sel>r.auto?'<span class="t-w"> – seçilen seviye risk sonucunun gerisinde</span>':'';
+ const row=(a,b)=>`<tr><td>${a}</td><td>${b}</td></tr>`;
+ $('tb').innerHTML=[
+ row('Toplama alanı Ad = LW + 6H(L+W) + π(3H)²',`<b>${f(r.Ad,0)}</b> m²`),
+ row('Nd = Ng·Ad·Cd·10⁻⁶',`<b>${r.Nd.toExponential(3).replace('.',',')}</b> /yıl`),
+ row('C = C2·C3·C4·C5  →  Nc = 5,5·10⁻³ / C',`C = <b>${f(r.C,2)}</b> → Nc = <b>${r.Nc.toExponential(3).replace('.',',')}</b> /yıl`),
+ row('Gerekli etkinlik E = 1 − Nc/Nd',`<b>${r.E>0?f(r.E,3):'≤ 0 (LPS şart değil)'}</b>${r.note?`<br><span class="t-w">${r.note}</span>`:''}`),
+ row('Uygulanan LPL',`<b>${RN[r.lp]}</b> (etkinlik ${P.E}; tepe akım ${P.Imin}–${P.Imax} kA)${warn}`),
+ row('Yuvarlanan küre yarıçapı',`<b>${P.R}</b> m`),
+ row('Yakalama ağı gözü (en fazla)',`<b>${P.M} × ${P.M}</b> m → uygulanan ${f(r.mw,1)} × ${f(r.mh,1)} m (${r.nm+1} + ${r.mm+1} iletken, ≈ ${f(r.aeLen,0)} m)`),
+ row('İniş iletkeni aralığı / adedi',`en fazla <b>${P.D}</b> m → çevre ${f(r.per,0)} m, <b>${r.nd}</b> adet (min 2)`),
+ row('Pasif yakalama ucu: korunan yarıçap (çatı seviyesi)',r.rr?`<b>${f(r.rr,1)}</b> m (hr = ${f(r.hr,1)} m)`:'Çubuk yok'),
+ row('Pasif yakalama ucu adedi (yalnız çubuk, yuvarlanan küre)',r.rd.ok?`<b>${r.rd.cnt}</b> adet → ${r.rd.nx+1} × ${r.rd.ny+1} ızgara, aralık ${f(r.L/r.rd.nx,1)} × ${f(r.W/r.rd.ny,1)} m (köşegen/2 ≤ ${f(r.rr,1)} m)`:'<span class="t-w">hr girin veya artırın</span>'),
+ row('Çubuk boyuna göre adet (hr = 1 / 2 / 3 / 4 / 6 m)',r.alt.map((o,i)=>[1,2,3,4,6][i]+' m: '+(o.ok?o.cnt:'–')).join(' · ')),
+ row('Ayrım mesafesi s = ki·kc/km·l',`ki = ${P.ki}, kc = ${r.kc}, km = 0,5 (beton/tuğla), l = H + hr = ${f(r.H+r.hr,1)} m → <b>${f(r.s,2)}</b> m`),
+ row('İletken min kesiti (yakalama/iniş)',`<b>${$('mt').value}</b> mm² (${$('mt').selectedOptions[0].text.split(' ')[0]})`),
+ row('Topraklama',`Tip B halka topraklayıcı (çevre ≈ ${f(r.per+8,0)} m)<br>Halka topraklayıcı malzemesi: <b>${RING[$('mt').value]}</b><br>İniş iletkenleri halkaya bağlanır; hedef eşpotansiyel bağlama (EPB)`),
+ row('Ek önlemler','Gerilim/akım: SPD tip 1 (giriş), EPB barası, kademeli SPD (IEC 62305-4)')].join('');dvDraw()}
+const REG={"Marmara":3,"Ege":3,"Akdeniz":2,"Karadeniz":2.5,"İç Anadolu":1.5,"Doğu Anadolu":2.5,"Güneydoğu Anadolu":1.5};
+const IL={"Marmara":"Balıkesir,Bilecik,Bursa,Çanakkale,Edirne,İstanbul,Kırklareli,Kocaeli,Sakarya,Tekirdağ,Yalova","Ege":"Afyonkarahisar,Aydın,Denizli,İzmir,Kütahya,Manisa,Muğla,Uşak","Akdeniz":"Adana,Antalya,Burdur,Hatay,Isparta,Kahramanmaraş,Mersin,Osmaniye","Karadeniz":"Amasya,Artvin,Bartın,Bayburt,Bolu,Çorum,Düzce,Giresun,Gümüşhane,Karabük,Kastamonu,Ordu,Rize,Samsun,Sinop,Tokat,Trabzon,Zonguldak","İç Anadolu":"Aksaray,Ankara,Çankırı,Eskişehir,Karaman,Kayseri,Kırıkkale,Kırşehir,Konya,Nevşehir,Niğde,Sivas,Yozgat","Doğu Anadolu":"Ağrı,Ardahan,Bingöl,Bitlis,Elazığ,Erzincan,Erzurum,Hakkâri,Iğdır,Kars,Malatya,Muş,Tunceli,Van","Güneydoğu Anadolu":"Adıyaman,Batman,Diyarbakır,Gaziantep,Kilis,Mardin,Siirt,Şanlıurfa,Şırnak"};
+(()=>{const sl=$('il');for(const k in IL){const g=document.createElement('optgroup');g.label=k;IL[k].split(',').forEach(c=>{const o=document.createElement('option');o.textContent=c;o.value=REG[k];o.dataset.b=k;g.appendChild(o)});sl.appendChild(g)}
+ sl.addEventListener('change',()=>{const o=sl.selectedOptions[0];if(o.value){$('ng').value=o.value;$('ilnot').textContent=o.textContent+': '+o.dataset.b+' bölgesi ön değeri Ng ≈ '+o.value+' /km²·yıl (bölge ortalaması; il bazlı MGM/LINET verisiyle doğrulayıp değiştirin).'}else{$('ilnot').textContent='Manuel giriş.'}drawMap(o.value?o.textContent:'');render()})})();
+$('pl').addEventListener('click',()=>{if(man){man=null;run=true}else run=!run;$('pl').textContent=run?'⏸ Durdur':'▶ Oynat'});
+document.querySelectorAll('input,select').forEach(e=>e.addEventListener('input',render));drawMap('');render();requestAnimationFrame(frame);
+</script></body></html>
